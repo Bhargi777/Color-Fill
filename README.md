@@ -78,10 +78,4 @@ The game uses graph algorithms to:
 - Sound effects and animations
 - Different board shapes and layouts
 
-## License
 
-This project is open source and available for educational purposes.
-
-## Author
-
-Created as part of an educational exercise in algorithm design and GUI development.
