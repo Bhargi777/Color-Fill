@@ -1,0 +1,54 @@
+ALGORITHM ANALYSIS
+==================
+
+This document analyzes the algorithms used in the Color-Fill game, particularly the new features implemented in Review 2.
+
+1. Game Logic Algorithms
+------------------------
+
+### Flood Fill (Breadth-First Search)
+- **Usage**: Used to calculate the territory of each player (Human and CPU) and to determine the "gain" of picking a specific color.
+- **Algorithm**:
+    - Starts from the player's root cell.
+    - Uses a Queue to traverse connected cells of the same color.
+    - Adds valid neighbors to the queue and marks them as visited.
+- **Time Complexity**: O(N), where N is the number of cells in the grid. In the worst case, it visits every cell once.
+- **Space Complexity**: O(N) to store the visited set and the queue.
+
+2. Sorting Algorithm (Divide and Conquer)
+-----------------------------------------
+
+### Merge Sort
+- **Usage**: Used by the CPU to rank possible color choices based on their potential "gain" (number of new cells captured). This satisfies the requirement for Divide and Conquer logic and sorting within the game logic.
+- **Algorithm**:
+    - **Divide**: The list of possible color choices (and their gains) is recursively divided into two halves until sublists of size 1 are reached.
+    - **Conquer**: The sublists are merged back together in sorted order (descending by gain).
+- **Time Complexity**: O(K log K), where K is the number of available colors. Since K is small (max 6-7), this is extremely fast.
+- **Space Complexity**: O(K) for temporary arrays during the merge process.
+
+3. Artificial Intelligence (Greedy Approach)
+--------------------------------------------
+
+### Greedy Strategy with Sorting
+- **Usage**: The CPU decides its move.
+- **Logic**:
+    1. Evaluate the partial gain for every valid color using BFS (Flood Fill).
+    2. Sort these choices using Merge Sort.
+    3. Pick the choice with the highest gain (Greedy).
+- **Analysis**: This is a greedy algorithm because it optimizes only for the immediate next move, without looking ahead to future turns (Minimax is not used here).
+
+4. Data Structures Used
+-----------------------
+- **2D Array (`Cell[][]`)**: To represent the grid. O(1) access to specific cells.
+- **HashSet**: To keep track of cells owned by players and visited cells during BFS. Provides O(1) average time complexity for lookups and insertions.
+- **LinkedList (Queue)**: Used for BFS traversal.
+- **ArrayList**: Used to store color choices for sorting.
+
+5. Complexity Summary
+---------------------
+- **Grid Initialization**: O(N)
+- **Human Turn**: O(N) (BFS for fill)
+- **CPU Turn**: O(K * N + K log K)
+    - K * N: Calculating gain for each color (BFS).
+    - K log K: Sorting the gains.
+    - Since K is small and constant relative to N, effective complexity is O(N).
