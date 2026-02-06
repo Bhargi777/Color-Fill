@@ -171,7 +171,7 @@ public class GameController {
 	}
 
 	private Color bestColor() {
-		List<ColorGain> gains = new ArrayList<>();
+		java.util.List<ColorGain> gains = new ArrayList<>();
 		Color humanColor = humanCells.iterator().next().color;
 		Color CPUColor = CPUCells.iterator().next().color;
 		for (Color color : grid.getColors()) {
@@ -202,17 +202,17 @@ public class GameController {
 	}
 
 	// Merge Sort Implementation
-	private List<ColorGain> mergeSort(List<ColorGain> list) {
+	private java.util.List<ColorGain> mergeSort(java.util.List<ColorGain> list) {
 		if (list.size() <= 1)
 			return list;
 		int mid = list.size() / 2;
-		List<ColorGain> left = mergeSort(list.subList(0, mid));
-		List<ColorGain> right = mergeSort(list.subList(mid, list.size()));
+		java.util.List<ColorGain> left = mergeSort(list.subList(0, mid));
+		java.util.List<ColorGain> right = mergeSort(list.subList(mid, list.size()));
 		return merge(left, right);
 	}
 
-	private List<ColorGain> merge(List<ColorGain> left, List<ColorGain> right) {
-		List<ColorGain> result = new ArrayList<>();
+	private java.util.List<ColorGain> merge(java.util.List<ColorGain> left, java.util.List<ColorGain> right) {
+		java.util.List<ColorGain> result = new ArrayList<>();
 		int i = 0, j = 0;
 		while (i < left.size() && j < right.size()) {
 			// Sort in descending order of gain
