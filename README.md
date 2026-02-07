@@ -1,30 +1,35 @@
-# Color Fill Game
+## Project Versions & Branches
 
-A Java Swing-based interactive game where you compete against the CPU to fill a grid with colors. The player who controls the most cells when the grid is completely filled wins!
+This repository is organized into branches to track the progress of the project through different review stages.
 
-## Features
+### 1. Main Branch (Review 1)
+The `main` branch contains the foundation of the Color Fill game.
+- **Core Logic**: Implements the base gameplay using Breadth-First Search (BFS) for the flood-fill mechanism.
+- **GUI**: Initial Swing interface with grid rendering and color selection.
+- **CPU**: A basic greedy AI that picks colors based on immediate gain.
+- **Difficulty**: Support for Easy, Medium, and Hard grid sizes.
 
-- **Interactive GUI**: Built with Java Swing for a user-friendly graphical interface
-- **Multiple Difficulty Levels**: Choose from Easy, Medium, or Hard difficulty
-- **Dynamic Grid Sizes**: 
-  - Easy: 6x6 grid with 4 colors
-  - Medium: 8x8 grid with 5 colors
-  - Hard: 10x10 grid with 7 colors
-- **Two-Player Mode**: Play against the CPU with alternating turns
-- **Game Controls**: New Game and Reset buttons for easy gameplay management
+### 2. Review 2 Branch (`review2`)
+The `review2` branch introduces several significant enhancements and rigorous algorithmic implementations.
 
-## How to Play
+**Key Changes & Improvements from Review 1:**
+- **Sorting Implementation (Divide & Conquer)**: 
+  - Integrated **Merge Sort** to rank color choices for the CPU. 
+  - This replaces the simple loop-based max search with a formal Divide and Conquer strategy for better logic organization.
+- **Live Scoring**:
+  - Real-time score tracking for both Human and CPU displayed at the top of the window.
+  - Scores update immediately after every move.
+- **Turn Timer**:
+  - Added a **10-second countdown** for the human player.
+  - If the timer reaches zero, the move is automatically skipped, adding a "speed" challenge to the game.
+- **Algorithm Analysis**:
+  - Included a dedicated `ALGORITHM_ANALYSIS.txt` file providing a technical deep-dive into the time and space complexity of the game's core functions.
 
-1. **Starting Position**: You start at the top-left corner, CPU starts at the bottom-right corner
-2. **Objective**: Fill as many grid cells as possible with your color
-3. **Gameplay**: 
-   - Select a color to expand your territory
-   - All adjacent cells of the same color will be claimed by the player whose turn it is
-   - The CPU will play optimally to maximize its own territory
-   - Game ends when the entire grid is filled
-4. **Winning**: The player controlling the most cells wins!
+---
 
 ## Project Structure
+... (rest of the content)
+
 
 ```
 DAA/
