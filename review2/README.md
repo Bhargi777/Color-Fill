@@ -1,18 +1,9 @@
-## Project Versions & Branches
+# Color Fill Game - Review 2
 
-This repository is organized into branches to track the progress of the project through different review stages.
+This version of the project introduces several significant enhancements and rigorous algorithmic implementations beyond the initial version.
 
-### 1. Main Branch (Review 1)
-The `main` branch contains the foundation of the Color Fill game.
-- **Core Logic**: Implements the base gameplay using Breadth-First Search (BFS) for the flood-fill mechanism.
-- **GUI**: Initial Swing interface with grid rendering and color selection.
-- **CPU**: A basic greedy AI that picks colors based on immediate gain.
-- **Difficulty**: Support for Easy, Medium, and Hard grid sizes.
+## Key Changes & Improvements from Review 1
 
-### 2. Review 2 Branch (`review2`)
-The `review2` branch introduces several significant enhancements and rigorous algorithmic implementations.
-
-**Key Changes & Improvements from Review 1:**
 - **Sorting Implementation (Divide & Conquer)**: 
   - Integrated **Merge Sort** to rank color choices for the CPU. 
   - This replaces the simple loop-based max search with a formal Divide and Conquer strategy for better logic organization.
@@ -21,18 +12,12 @@ The `review2` branch introduces several significant enhancements and rigorous al
   - Scores update immediately after every move.
 - **Turn Timer**:
   - Added a **10-second countdown** for the human player.
-  - If the timer reaches zero, the move is automatically skipped, adding a "speed" challenge to the game.
-- **Algorithm Analysis**:
-  - Included a dedicated `ALGORITHM_ANALYSIS.txt` file providing a technical deep-dive into the time and space complexity of the game's core functions.
-
----
+  - If the timer reaches zero, the move is automatically skipped, adding a speed challenge to the game.
 
 ## Project Structure
-... (rest of the content)
-
 
 ```
-DAA/
+review2/
 ├── src/swingprac/
 │   ├── Cell.java           - Represents a single grid cell
 │   ├── Grid.java           - Manages the grid and cell initialization
@@ -74,13 +59,3 @@ The game uses graph algorithms to:
 - Track cell adjacency through a neighbor-based system
 - Efficiently compute connected components of the same color
 - Implement game logic for both human and CPU players
-
-## Future Enhancements
-
-- Improved AI strategy with lookahead algorithms
-- Multiplayer network support
-- Score tracking and leaderboard
-- Sound effects and animations
-- Different board shapes and layouts
-
-
