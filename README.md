@@ -14,10 +14,16 @@ This folder contains the foundation of the Color Fill game.
 - **Difficulty**: Support for Easy, Medium, and Hard grid sizes.
 
 ### 2. review2
-This folder contains significant enhancements over the first version.
+This folder contains significant enhancements over the first version, including Merge Sort and live game features.
 - **Sorting Implementation**: Uses Merge Sort (Divide & Conquer) to rank color choices for the CPU.
 - **Live Scoring**: Real-time score tracking for both players during the game.
 - **Turn Timer**: A 10-second countdown for the human player to add a speed challenge.
+
+### 3. review3
+This folder implements advanced algorithmic intelligence for the CPU player.
+- **Backtracking Logic**: Replaces the greedy strategy with a **Minimax Algorithm** that looks ahead 3 moves.
+- **Dynamic Programming (DP)**: Uses **Memoization** to store and reuse evaluations of game states, significantly optimizing the recursive search.
+
 
 ## How to Run
 
