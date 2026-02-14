@@ -157,6 +157,11 @@ public class GameController {
 	private Map<String, Integer> memo = new HashMap<>();
 	private static final int MAX_DEPTH = 3;
 
+	/**
+	 * Determines the optimal color for the CPU to play using Minimax.
+	 * 
+	 * @return The Color object representing the best move.
+	 */
 	private Color bestColor() {
 		memo.clear();
 		// Initial call for Minimax
@@ -192,6 +197,21 @@ public class GameController {
 		return bestMove;
 	}
 
+	/**
+	 * Recursive Minimax algorithm with Alpha-Beta Pruning and Memoization.
+	 * 
+	 * @param cpuSet       Set of cells owned by CPU
+	 * @param humanSet     Set of cells owned by Human
+	 * @param cpuColor     Current color of CPU
+	 * @param humanColor   Current color of Human
+	 * @param depth        Current depth of recursion
+	 * @param isMaximizing True if it's CPU's turn to optimize gain
+	 * @param alpha        Best already explored option along the path to the root
+	 *                     for the maximizer
+	 * @param beta         Best already explored option along the path to the root
+	 *                     for the minimizer
+	 * @return The evaluation score of the state
+	 */
 	// Backtracking / Minimax Implementation
 	private int minimax(Set<Cell> cpuSet, Set<Cell> humanSet, Color cpuColor, Color humanColor, int depth,
 			boolean isMaximizing, int alpha, int beta) {
