@@ -155,6 +155,7 @@ public class GameController {
 
 	// DP Memoization Map
 	private Map<String, Integer> memo = new HashMap<>();
+	private static final int MAX_DEPTH = 3;
 
 	private Color bestColor() {
 		memo.clear();
@@ -179,7 +180,7 @@ public class GameController {
 			// If no gain, maybe skip to save time? But sometimes 0 gain is necessary.
 			// Optimization: Sort moves by immediate gain?
 
-			int eval = minimax(nextCpuCells, humanCells, color, humanColor, 3, false, Integer.MIN_VALUE,
+			int eval = minimax(nextCpuCells, humanCells, color, humanColor, MAX_DEPTH, false, Integer.MIN_VALUE,
 					Integer.MAX_VALUE);
 
 			if (eval > maxEval) {
