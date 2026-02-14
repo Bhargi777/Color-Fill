@@ -275,6 +275,20 @@ public class GameController {
 		return (cpu.size() + human.size()) == total; // Or close enough logic
 	}
 
+	/**
+	 * Evaluates the current game state for the CPU.
+	 * Currently uses a simple difference in cell count.
+	 * 
+	 * @param cpu   Set of cells owned by CPU
+	 * @param human Set of cells owned by Human
+	 * @return Score (positive favors CPU, negative favors Human)
+	 * 
+	 *         Future Heuristic Improvements:
+	 *         - Connectivity: Bonus for cells with many same-colored neighbors
+	 *         - Perimeter: Penalty for having a large robust perimeter exposed to
+	 *         opponent
+	 *         - Center Control: Bonus for occupying center cells
+	 */
 	private int evaluateState(Set<Cell> cpu, Set<Cell> human) {
 		return cpu.size() - human.size();
 	}
