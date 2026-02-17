@@ -11,6 +11,7 @@ public class ColorFillUI {
 	private JComboBox<String> difficultyBox;
 	private JButton newGameBtn;
 	private JButton resetBtn;
+	private JButton hintBtn;
 	private JButton[][] buttons;
 	private JButton[] colorButtons;
 	private Grid grid;
@@ -84,13 +85,16 @@ public class ColorFillUI {
 		optionsPanel.add(difficultyBox);
 		newGameBtn = new JButton("New Game");
 		resetBtn = new JButton("Reset");
+		hintBtn = new JButton("💡 Hint");
+		hintBtn.setToolTipText("Get the best color suggestion using DP");
 		optionsPanel.add(newGameBtn);
 		optionsPanel.add(resetBtn);
+		optionsPanel.add(hintBtn);
 
 		// Initialize labels
 		humanScoreLabel = new JLabel("Human: 1");
 		cpuScoreLabel = new JLabel("CPU: 1");
-		timerLabel = new JLabel("Time: 10s");
+		timerLabel = new JLabel("Time: 15s");
 
 		// Add some spacing
 		optionsPanel.add(Box.createHorizontalStrut(10));
@@ -167,6 +171,32 @@ public class ColorFillUI {
 
 	public JButton[] getColorButtons() {
 		return colorButtons;
+	}
+
+	public JButton getHintBtn() {
+		return hintBtn;
+	}
+
+	/**
+	 * Highlights the recommended color button with a distinctive gold border
+	 * that flashes for 2 seconds to guide the human player.
+	 */
+	public void highlightHint(Color hintColor) {
+		for (JButton colorBtn : colorButtons) {
+			if (colorBtn.getBackground().equals(hintColor)) {
+				// Save original border
+				javax.swing.border.Border originalBorder = colorBtn.getBorder();
+				// Set a thick gold border to highlight
+				colorBtn.setBorder(BorderFactory.createLineBorder(new Color(255, 215, 0), 4));
+				// Flash effect: restore after 2 seconds
+				javax.swing.Timer flashTimer = new javax.swing.Timer(2000, e -> {
+					colorBtn.setBorder(originalBorder);
+				});
+				flashTimer.setRepeats(false);
+				flashTimer.start();
+				break;
+			}
+		}
 	}
 
 	// New UI components for Review 2

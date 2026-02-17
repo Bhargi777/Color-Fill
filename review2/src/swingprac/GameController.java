@@ -5,6 +5,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GameController {
+	// DP memoization table for hint computation
+	private Map<String, Integer> dpMemo = new HashMap<>();
 	private ColorFillUI ui;
 	private Grid grid;
 	private Set<Cell> humanCells = new HashSet<>();
@@ -14,7 +16,7 @@ public class GameController {
 
 	// Timer fields
 	private javax.swing.Timer turnTimer;
-	private int timeLeft = 10;
+	private int timeLeft = 15;
 
 	// Score fields updating
 	private void updateScores() {
@@ -29,6 +31,7 @@ public class GameController {
 		initializeGame();
 		newGameListener();
 		resetGameListener();
+		hintListener();
 	}
 
 	private void difficultyListener() {
@@ -82,7 +85,7 @@ public class GameController {
 	}
 
 	private void startTurnTimer() {
-		timeLeft = 10;
+		timeLeft = 15;
 		ui.updateTimer(timeLeft);
 		if (turnTimer != null)
 			turnTimer.restart();
@@ -280,5 +283,171 @@ public class GameController {
 			grid = ui.getGrid();
 			newGame();
 		});
+	}
+
+	// ========================
+	// DP-Based Hint System
+	// ========================
+
+	private void hintListener() {
+		ui.getHintBtn().addActionListener(e -> {
+			if (!humanTurn || gameOver) {
+				return;
+			}
+			Color bestHint = computeHintDP();
+			if (bestHint != null) {
+				ui.highlightHint(bestHint);
+			}
+		});
+	}
+
+	/**
+	 * Uses DP (Dynamic Programming) with memoization to find the best color
+	 * for the human player. Looks ahead up to 'depth' moves to maximize
+	 * the number of cells captured.
+	 */
+	private Color computeHintDP() {
+		dpMemo.clear();
+		Color humanColor = humanCells.iterator().next().color;
+		Color cpuColor = CPUCells.iterator().next().color;
+		Color[] colors = grid.getColors();
+		int bestGain = -1;
+		Color bestColor = null;
+
+		// Determine DP look-ahead depth based on grid size
+		int gridSize = grid.getCells().length;
+		int depth = (gridSize <= 6) ? 3 : 2;
+
+		for (Color color : colors) {
+			if (color.equals(humanColor) || color.equals(cpuColor)) {
+				continue;
+			}
+			int totalGain = dpLookAhead(color, depth);
+			if (totalGain > bestGain) {
+				bestGain = totalGain;
+				bestColor = color;
+			}
+		}
+		return bestColor;
+	}
+
+	/**
+	 * DP look-ahead: simulates choosing 'firstColor' now, then recursively
+	 * finds the best subsequent moves up to 'depth' levels.
+	 * Uses memoization based on the set of owned cell positions.
+	 */
+	private int dpLookAhead(Color firstColor, int depth) {
+		// Simulate choosing firstColor for human
+		Set<Cell> simHumanCells = new HashSet<>(humanCells);
+		int immediateGain = simulateFill(simHumanCells, firstColor);
+
+		if (depth <= 1) {
+			return immediateGain;
+		}
+
+		// Build memoization key from simulated cell positions
+		String memoKey = buildMemoKey(simHumanCells, depth - 1);
+		if (dpMemo.containsKey(memoKey)) {
+			return immediateGain + dpMemo.get(memoKey);
+		}
+
+		// DP recurrence: try all valid next colors and pick the max
+		Color simHumanColor = firstColor;
+		Color cpuColor = CPUCells.iterator().next().color;
+		int bestFutureGain = 0;
+
+		for (Color nextColor : grid.getColors()) {
+			if (nextColor.equals(simHumanColor) || nextColor.equals(cpuColor)) {
+				continue;
+			}
+			Set<Cell> nextSimCells = new HashSet<>(simHumanCells);
+			int futureGain = simulateFill(nextSimCells, nextColor);
+			if (depth > 2) {
+				// Continue DP recursion
+				String nextKey = buildMemoKey(nextSimCells, depth - 2);
+				if (dpMemo.containsKey(nextKey)) {
+					futureGain += dpMemo.get(nextKey);
+				} else {
+					int deepGain = dpRecurse(nextSimCells, nextColor, depth - 2);
+					dpMemo.put(nextKey, deepGain);
+					futureGain += deepGain;
+				}
+			}
+			bestFutureGain = Math.max(bestFutureGain, futureGain);
+		}
+
+		dpMemo.put(memoKey, bestFutureGain);
+		return immediateGain + bestFutureGain;
+	}
+
+	/**
+	 * DP recursive helper with memoization for deeper look-ahead.
+	 */
+	private int dpRecurse(Set<Cell> currentCells, Color currentColor, int depth) {
+		if (depth <= 0) {
+			return 0;
+		}
+
+		Color cpuColor = CPUCells.iterator().next().color;
+		int bestGain = 0;
+
+		for (Color nextColor : grid.getColors()) {
+			if (nextColor.equals(currentColor) || nextColor.equals(cpuColor)) {
+				continue;
+			}
+			Set<Cell> simCells = new HashSet<>(currentCells);
+			int gain = simulateFill(simCells, nextColor);
+
+			if (depth > 1) {
+				String key = buildMemoKey(simCells, depth - 1);
+				if (dpMemo.containsKey(key)) {
+					gain += dpMemo.get(key);
+				} else {
+					int deeper = dpRecurse(simCells, nextColor, depth - 1);
+					dpMemo.put(key, deeper);
+					gain += deeper;
+				}
+			}
+			bestGain = Math.max(bestGain, gain);
+		}
+		return bestGain;
+	}
+
+	/**
+	 * Simulates a fill operation on a copy of cells WITHOUT modifying the actual
+	 * game state.
+	 * Returns the number of new cells gained.
+	 */
+	private int simulateFill(Set<Cell> cells, Color chosenColor) {
+		Queue<Cell> queue = new LinkedList<>(cells);
+		Set<Cell> visited = new HashSet<>(cells);
+		int gained = 0;
+		while (!queue.isEmpty()) {
+			Cell current = queue.poll();
+			for (Cell neighbour : current.neighbours) {
+				if (!visited.contains(neighbour) && neighbour.owner == Owner.NONE
+						&& neighbour.color.equals(chosenColor)) {
+					visited.add(neighbour);
+					queue.add(neighbour);
+					cells.add(neighbour);
+					gained++;
+				}
+			}
+		}
+		return gained;
+	}
+
+	/**
+	 * Builds a unique memoization key from the set of cell positions and remaining
+	 * depth.
+	 * Uses a sorted representation of cell row-col pairs for consistency.
+	 */
+	private String buildMemoKey(Set<Cell> cells, int depth) {
+		java.util.List<String> positions = new ArrayList<>();
+		for (Cell c : cells) {
+			positions.add(c.getRow() + "," + c.getCol());
+		}
+		Collections.sort(positions);
+		return positions.toString() + ":" + depth;
 	}
 }
