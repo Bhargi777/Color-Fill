@@ -14,6 +14,15 @@ This version expands upon Review 2 by introducing advanced Artificial Intelligen
   - A `HashMap` stores evaluations of previously encountered game states (keyed by the unique configuration of owned cells and colors).
   - This drastically reduces redundant calculations, strictly adhering to DP principles by solving overlapping subproblems only once.
 
+## Algorithm Analysis
+
+- **Time Complexity (Minimax + DP)**: The Minimax algorithm explores the game tree up to a maximum depth of 3 (`MAX_DEPTH=3`). Without optimization, it would evaluate in $O(C^D)$ time, where $C$ is the number of valid color moves and $D$ is the depth limit. By applying **Alpha-Beta Pruning** and **Memoization** (which prevents the recalculation of duplicate game states), average-case performance approaches near-instant evaluation, allowing the GUI thread to remain responsive.
+- **Space Complexity**: Space corresponds mainly to the maximum recursion depth, which is $O(D)$, along with the DP `HashMap` states. The map's memory usage is bounded by the number of unique game configurations evaluated, yielding an overall space complexity of $O(S + D)$ where $S$ is the state memory size. 
+
+## Individual Contribution
+
+- **Bhargava Srisai**: Handled 100% of the Review 3 integration. This includes the formulation and translation of the Backtracking pattern into the AI's core logic (`Minimax`), applying the Dynamic Programming enhancement (`HashMap` memoization schema), establishing Alpha-Beta limits for branch culling, and properly adapting `GameController.java` to support these algorithmic operations.
+
 ## Project Structure
 
 ```

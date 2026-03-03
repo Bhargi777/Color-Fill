@@ -23,7 +23,8 @@ This folder contains significant enhancements over the first version, including 
 This folder implements advanced algorithmic intelligence for the CPU player.
 - **Backtracking Logic**: Replaces the greedy strategy with a **Minimax Algorithm** that looks ahead 3 moves.
 - **Dynamic Programming (DP)**: Uses **Memoization** to store and reuse evaluations of game states, significantly optimizing the recursive search.
-
+- **Algorithm Analysis**: Incorporates time and space complexity evaluations to ensure game responsiveness. See `review3/README.md` for the breakdown.
+- **Individual Contribution**: Documentation identifying the primary programmer responsible for designing and embedding the core Minimax/DP mechanisms.
 
 ## How to Run
 
