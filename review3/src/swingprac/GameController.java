@@ -384,45 +384,72 @@ public class GameController {
 		return bestColor;
 	}
 	
+	/**
+	 * Minimax algorithm with Alpha-Beta Pruning for evaluating future game states.
+	 * Recursively explores the game tree up to a specified depth, alternating between
+	 * maximizing the human's score and minimizing the CPU's score.
+	 * 
+	 * @param hCells current human-owned cells
+	 * @param cCells current CPU-owned cells
+	 * @param depth remaining depth to explore in the game tree
+	 * @param alpha best value found so far for maximizing player
+	 * @param beta best value found so far for minimizing player
+	 * @param isMaximizing true if we're maximizing human score, false if minimizing CPU score
+	 * @return the minimax score of the position
+	 */
 	private int minimax(Set<Cell> hCells, Set<Cell> cCells, int depth, int alpha, int beta, boolean isMaximizing) {
+		// Terminal conditions: check for win states or depth limit
 		int totalCells = grid.getCells().length * grid.getCells().length;
-		if (hCells.size() >= totalCells / 2) return 1000;
-		if (cCells.size() >= totalCells / 2) return -1000;
-		if (depth == 0) return hCells.size() - cCells.size();
+		if (hCells.size() >= totalCells / 2) return 1000; // Human wins - high score
+		if (cCells.size() >= totalCells / 2) return -1000; // CPU wins - low score
+		if (depth == 0) return hCells.size() - cCells.size(); // Leaf node - evaluate position
 		
+		// Get current colors for both players
 		Color humanColor = hCells.isEmpty() ? null : hCells.iterator().next().color;
 		Color cpuColor = cCells.isEmpty() ? null : cCells.iterator().next().color;
 		
 		if (isMaximizing) {
+			// Maximizing player (Human) - looking for highest score
 			int maxEval = Integer.MIN_VALUE;
 			for (Color color : grid.getColors()) {
+				// Skip colors already owned by either player
 				if (color.equals(humanColor) || color.equals(cpuColor)) continue;
 				
+				// Simulate human's move with this color
 				Set<Cell> newHuman = new HashSet<>(hCells);
 				int before = newHuman.size();
 				simulateFill(newHuman, color, Owner.HUMAN);
+				// Continue only if this color captures new cells
 				if (newHuman.size() == before) continue;
 				
+				// Recursively evaluate CPU's best response
 				int eval = minimax(newHuman, cCells, depth - 1, alpha, beta, false);
 				maxEval = Math.max(maxEval, eval);
+				// Alpha-Beta Pruning: update alpha and prune branches
 				alpha = Math.max(alpha, eval);
-				if (beta <= alpha) break; // Prune
+				if (beta <= alpha) break; // Beta cutoff - this branch can be ignored
 			}
 			return maxEval == Integer.MIN_VALUE ? hCells.size() - cCells.size() : maxEval;
 		} else {
+			// Minimizing player (CPU) - looking for lowest score
 			int minEval = Integer.MAX_VALUE;
 			for (Color color : grid.getColors()) {
+				// Skip colors already owned by either player
 				if (color.equals(humanColor) || color.equals(cpuColor)) continue;
 				
+				// Simulate CPU's move with this color
 				Set<Cell> newCPU = new HashSet<>(cCells);
 				int before = newCPU.size();
 				simulateFill(newCPU, color, Owner.CPU);
+				// Continue only if this color captures new cells
 				if (newCPU.size() == before) continue;
 				
+				// Recursively evaluate human's best response
 				int eval = minimax(hCells, newCPU, depth - 1, alpha, beta, true);
 				minEval = Math.min(minEval, eval);
+				// Alpha-Beta Pruning: update beta and prune branches
 				beta = Math.min(beta, eval);
-				if (beta <= alpha) break; // Prune
+				if (beta <= alpha) break; // Alpha cutoff - this branch can be ignored
 			}
 			return minEval == Integer.MAX_VALUE ? hCells.size() - cCells.size() : minEval;
 		}
