@@ -459,15 +459,29 @@ public class GameController {
 		}
 	}
 	
+	/**
+	 * Simulates a flood-fill operation using BFS to capture adjacent unowned cells.
+	 * Expands the given cell set to include all adjacent cells of the chosen color.
+	 * Used for evaluating future game states in the Minimax algorithm.
+	 * 
+	 * @param cells the set of cells to expand
+	 * @param chosenColor the target color to match when expanding
+	 * @param owner the player making the move (used in actual turns, not simulation)
+	 */
 	private void simulateFill(Set<Cell> cells, Color chosenColor, Owner owner) {
+		// BFS (Breadth-First Search) to find all connected cells of the chosen color
 		Queue<Cell> queue = new LinkedList<>(cells);
 		Set<Cell> visited = new HashSet<>(cells);
+		
 		while (!queue.isEmpty()) {
 			Cell current = queue.poll();
+			// Check all neighbors of the current cell
 			for (Cell neighbour : current.neighbours) {
+				// Only capture unvisited, unowned cells with matching color
 				if (!visited.contains(neighbour)
 						&& neighbour.owner == Owner.NONE
 						&& neighbour.color.equals(chosenColor)) {
+					// Mark as visited and add to both queue and owned cells
 					visited.add(neighbour);
 					queue.add(neighbour);
 					cells.add(neighbour);
