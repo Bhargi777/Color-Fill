@@ -14,6 +14,12 @@ import java.awt.event.*;
 import java.util.*;
 
 public class HelloSwing {
+    /**
+     * Main entry point for the Color Fill Game application.
+     * Launches the UI in the Swing event dispatch thread to ensure thread safety.
+     * 
+     * @param args command line arguments (not used)
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
         	ColorFillUI ui = new ColorFillUI();
