@@ -1,10 +1,12 @@
 /*
- * Cell
- * ----
- * Represents a single square in the grid.
- * Each cell stores its position, color, neighbours,
- * and which player currently owns it.
+ * Cell.java
+ * Represents a single cell in the game grid.
+ * Each cell has a color, position, owner, and maintains references to neighboring cells.
+ * Implements proper equals() and hashCode() for use in collections.
+ * Author: Bhargava Srisai
+ * Version: 2.0
  */
+
 package swingprac;
 import java.util.*;
 import java.awt.Color;

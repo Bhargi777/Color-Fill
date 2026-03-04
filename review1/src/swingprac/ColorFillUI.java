@@ -1,3 +1,12 @@
+/*
+ * ColorFillUI.java
+ * Constructs and manages the graphical user interface for the Color Fill game.
+ * Builds the main frame, grid panel, color buttons, and control elements.
+ * Provides methods for UI updates and user interaction handling.
+ * Author: Bhargava Srisai
+ * Version: 1.0
+ */
+
 package swingprac;
 import javax.swing.*;
 import java.awt.*;

@@ -1,3 +1,12 @@
+/*
+ * GameController.java
+ * Implements the core game logic for the Color Fill game.
+ * Manages turn alternation, cell ownership changes, win conditions, and CPU AI strategy.
+ * Uses a greedy gain-based algorithm for CPU decision-making.
+ * Author: Bhargava Srisai
+ * Version: 1.0
+ */
+
 package swingprac;
 import java.util.*;
 import javax.swing.*;

@@ -1,15 +1,11 @@
 /*
- * ColorFillUI
- * -----------
- * Handles everything related to the visual interface.
- * This class builds the frame, grid, buttons, and top control panel.
- * It does not contain game logic — it only reflects the current state.
- *
- * Review 2 additions:
- * - Score display (Human vs CPU)
- * - Turn timer display
- * - Help button for Minimax suggestion
- * - Highlight system for suggested move
+ * ColorFillUI.java
+ * Constructs and manages the graphical user interface for the Color Fill game.
+ * Builds the main frame, grid panel, color buttons, score display, timer, and control elements.
+ * Provides methods for UI updates, highlighting suggestions, and user interaction handling.
+ * Review 2 additions: Score display, turn timer, help button, highlight system.
+ * Author: Bhargava Srisai
+ * Version: 2.0
  */
 
 package swingprac;

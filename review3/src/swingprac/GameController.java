@@ -1,3 +1,13 @@
+/*
+ * GameController.java
+ * Implements the core game logic for the Color Fill game with advanced AI features.
+ * Review 3 enhancements: Minimax with Alpha-Beta Pruning, Undo system, Turn timer, Live scoring.
+ * Manages turn alternation, cell ownership changes, win conditions, and AI decision-making.
+ * Includes Minimax algorithm for AI help feature and GameState for undo functionality.
+ * Author: Bhargava Srisai
+ * Version: 3.0
+ */
+
 package swingprac;
 import java.awt.*;
 import java.util.*;

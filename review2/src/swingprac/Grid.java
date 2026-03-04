@@ -5,6 +5,15 @@
  * It initializes cells with random colors based on difficulty
  * and connects each cell to its neighbouring cells.
  */
+/*
+ * Grid.java
+ * Manages the game grid structure and cell initialization.
+ * Handles grid dimensions, cell creation, color assignment, and neighbor connections.
+ * Supports multiple difficulty levels with varying grid sizes and color palettes.
+ * Author: Bhargava Srisai
+ * Version: 2.0
+ */
+
 package swingprac;
 import java.util.*;
 import java.awt.Color;

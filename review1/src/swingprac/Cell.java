@@ -1,3 +1,12 @@
+/*
+ * Cell.java
+ * Represents a single cell in the game grid.
+ * Each cell has a color, position, owner, and maintains references to neighboring cells.
+ * Uses graph adjacency list structure for efficient neighbor management.
+ * Author: Bhargava Srisai
+ * Version: 1.0
+ */
+
 package swingprac;
 import java.util.*;
 import java.awt.Color;

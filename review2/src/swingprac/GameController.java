@@ -1,3 +1,13 @@
+/*
+ * GameController.java
+ * Implements the core game logic for the Color Fill game with advanced features.
+ * Review 2 enhancements: Undo system, turn timer, Minimax help feature, live scoring.
+ * Manages turn alternation, cell ownership changes, win conditions, and user interactions.
+ * Includes GameState inner class for snapshot-based undo functionality.
+ * Author: Bhargava Srisai
+ * Version: 2.0
+ */
+
 package swingprac;
 import java.awt.*;
 import java.util.*;
