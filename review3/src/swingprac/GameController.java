@@ -29,7 +29,11 @@ public class GameController {
 	private Stack<GameState> undoStack = new Stack<>();
 	private int undosRemaining = 3;
 
-	// Snapshot class to capture game state
+	/**
+	 * Inner class that captures a snapshot of the game state.
+	 * Used for implementing the undo functionality by storing the configuration
+	 * of owned cells, cell colors, and whose turn it is.
+	 */
 	private class GameState {
 		Map<Cell, Color> cellColors = new HashMap<>();
 		Map<Cell, Owner> cellOwners = new HashMap<>();
@@ -37,6 +41,14 @@ public class GameController {
 		Set<Cell> cCells;
 		boolean hTurn;
 
+		/**
+		 * Creates a snapshot of the current game state for undo functionality.
+		 * 
+		 * @param grid the current game grid
+		 * @param h the set of human-owned cells
+		 * @param c the set of CPU-owned cells
+		 * @param turn whose turn it is (true for human, false for CPU)
+		 */
 		GameState(Cell[][] grid, Set<Cell> h, Set<Cell> c, boolean turn) {
 			for (Cell[] row : grid) {
 				for (Cell cell : row) {
@@ -182,7 +194,14 @@ public class GameController {
 			});
 		}
 	}
-	// Human turn
+	
+	/**
+	 * Handles the human player's turn.
+	 * Changes the color of owned cells and expands territory to adjacent matching cells.
+	 * Checks for win conditions and switches turn to CPU if game continues.
+	 * 
+	 * @param chosenColor the color selected by the human player
+	 */
 	private void humanTurn(Color chosenColor) {
 		stopTurnTimer();
 		fillCells(humanCells, chosenColor, Owner.HUMAN);
@@ -197,7 +216,15 @@ public class GameController {
 		humanTurn = false;
 		cpuTurn();
 	}
-	// Fill cells method for updating the selected color for cells
+	
+	/**
+	 * Propagates color change through owned cells and captures adjacent cells of the same color.
+	 * Uses BFS (breadth-first search) to find all connected cells that should be captured.
+	 * 
+	 * @param cells the set of cells currently owned by a player
+	 * @param chosenColor the new color for owned cells and cells to capture
+	 * @param owner the player making the move (HUMAN or CPU)
+	 */
 	private void fillCells(Set<Cell> cells, Color chosenColor, Owner owner) {
 		Queue<Cell> queue = new LinkedList<>(cells);
 		Set<Cell> visited = new HashSet<>(cells);
@@ -215,6 +242,12 @@ public class GameController {
 			}
 		}
 	}
+	
+	/**
+	 * Checks if either player has reached 50% of the grid to win.
+	 * 
+	 * @return Owner.HUMAN if human reaches 50%, Owner.CPU if CPU reaches 50%, Owner.NONE if game continues
+	 */
 	private Owner checkWin() {
 		int totalCells = (int) Math.pow(grid.getCells().length, 2);
 		if (humanCells.size() >= totalCells / 2) {
@@ -224,7 +257,14 @@ public class GameController {
 		}
 		return Owner.NONE;
 	}
-	// method to check cells conquered for each color
+	
+	/**
+	 * Calculates how many unowned cells adjacent to CPU cells would be captured
+	 * if the CPU changes to the specified color. Used for greedy AI strategy.
+	 * 
+	 * @param color the color to evaluate
+	 * @return the number of cells that would be captured (gain) for this color choice
+	 */
 	private int gain(Color color) {
 		Queue<Cell> queue = new LinkedList<>(CPUCells);
 		Set<Cell> visited = new HashSet<>(CPUCells);
