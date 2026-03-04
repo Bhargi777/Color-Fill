@@ -27,6 +27,11 @@ public class ColorFillUI {
     private JButton lastHighlighted = null;
     private Grid grid;
 
+    /**
+     * Constructs the ColorFillUI and initializes all visual components.
+     * Creates the main window, grid panel, color buttons, and control panel.
+     * Starts with a medium difficulty 8x8 grid.
+     */
     public ColorFillUI() {
         // frame creation
         frame = new JFrame("Color Fill");
@@ -45,8 +50,15 @@ public class ColorFillUI {
         frame.add(optionsPanel, BorderLayout.NORTH);
         frame.setVisible(true);
     }
-    // Builds the grid visually
-
+    
+    /**
+     * Creates and populates the grid panel with colored buttons.
+     * Initializes the grid and sets up the initial player positions.
+     * 
+     * @param rows the number of rows in the grid
+     * @param cols the number of columns in the grid
+     * @param difficulty the difficulty level for color palette selection
+     */
     private void gridPanelCreate(int rows, int cols, int difficulty) {
         gridPanel = new JPanel();
         gridPanel.setLayout(new GridLayout(rows, cols));
@@ -72,7 +84,10 @@ public class ColorFillUI {
         buttons[rows - 1][cols - 1].setText("C");
     }
 
-    // Creates selectable color buttons
+    /**
+     * Creates the color selection panel with buttons for each available color.
+     * These buttons allow players to select colors during their turn.
+     */
     private void colorPanelCreate() {
         colorPanel = new JPanel();
         Color[] colors = grid.getColors();
@@ -89,7 +104,10 @@ public class ColorFillUI {
         }
     }
 
-    // Creates difficulty dropdown + control buttons + Review 2 elements
+    /**
+     * Creates the options panel with difficulty dropdown and control buttons.
+     * Includes New Game, Reset, Undo, and Help buttons along with the difficulty selector.
+     */
     private void optionsPanelCreate() {
         optionsPanel = new JPanel();
         String[] difficulties = { "Easy", "Medium", "Difficult" };
