@@ -15,6 +15,15 @@ public class Grid {
 	private Cell[][] cells;
 	private Color[] colors;
 	private Random rand = new Random();
+	
+	/**
+	 * Constructs a grid with specified dimensions and difficulty level.
+	 * Initializes all cells with random colors and establishes neighbor connections.
+	 * 
+	 * @param rows the number of rows in the grid
+	 * @param cols the number of columns in the grid
+	 * @param difficulty the difficulty level (1=Easy, 2=Medium, 3=Difficult) determining color palette
+	 */
 	public Grid(int rows, int cols, int difficulty) {
 		this.rows = rows;
 		this.cols = cols;
@@ -57,9 +66,21 @@ public class Grid {
 			}
 		}
 	}
+	
+	/**
+	 * Retrieves the 2D array of cells representing the game grid.
+	 * 
+	 * @return the cell grid array
+	 */
 	public Cell[][] getCells(){
 		return cells;
 	}
+	
+	/**
+	 * Retrieves the color palette used in this grid based on difficulty level.
+	 * 
+	 * @return array of colors available for play
+	 */
 	public Color[] getColors() {
 		return colors;
 	}
