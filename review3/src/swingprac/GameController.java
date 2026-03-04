@@ -86,25 +86,28 @@ public class GameController {
 	}
 
 	private void undoMove() {
-		// Only allow undo if stack has a state, match isn't over, and limit hasn't been reached
+		// Validate undo is allowed: stack must have state, game must not be over, and limit must be available
 		if (undoStack.isEmpty() || gameOver || undosRemaining <= 0) {
 			return;
 		}
 
-		GameState state = undoStack.pop(); // Clears the stack so they can't undo again this turn
+		// Pop the saved game state from the stack (one undo per turn only)
+		GameState state = undoStack.pop();
 		undosRemaining--;
 		
-		// Restore grid
+		// Restore all cell colors and ownership from the snapshot
 		for (Map.Entry<Cell, Color> entry : state.cellColors.entrySet()) {
 			Cell c = entry.getKey();
 			c.color = entry.getValue();
 			c.owner = state.cellOwners.get(c);
 		}
 
+		// Restore player-owned cell sets and turn state
 		this.humanCells = state.hCells;
 		this.CPUCells = state.cCells;
 		this.humanTurn = state.hTurn;
 
+		// Update UI to reflect restored game state
 		ui.updateGridUI(grid.getCells());
 		updateScores();
 		ui.clearHighlight();
@@ -186,7 +189,8 @@ public class GameController {
 				}
 
 				// SAVE STATE BEFORE THE MOVE
-				// Clear stack first to ensure only ONE undo per turn is possible
+				// Clear stack first to enforce one undo per turn limit:
+				// Player can undo their current turn, but once they move again, the previous undo is lost
 				undoStack.clear(); 
 				undoStack.push(new GameState(grid.getCells(), humanCells, CPUCells, humanTurn));
 
