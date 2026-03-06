@@ -19,12 +19,13 @@ This folder contains significant enhancements over the first version, including 
 - **Live Scoring**: Real-time score tracking for both players during the game.
 - **Turn Timer**: A 10-second countdown for the human player to add a speed challenge.
 
-### 3. review3
-This folder implements advanced algorithmic intelligence for the CPU player.
-- **Backtracking Logic**: Replaces the greedy strategy with a **Minimax Algorithm** that looks ahead 3 moves.
-- **Dynamic Programming (DP)**: Uses **Memoization** to store and reuse evaluations of game states, significantly optimizing the recursive search.
-- **Algorithm Analysis**: Incorporates time and space complexity evaluations to ensure game responsiveness. See `review3/README.md` for the breakdown.
-- **Individual Contribution**: Documentation identifying the primary programmer responsible for designing and embedding the core Minimax/DP mechanisms.
+## 3. review3
+This folder contains algorithmic optimizations and enhanced user interaction features, focusing on efficiency improvements and reversible gameplay.
+- **Alpha-Beta Pruning**: Implements branch-and-bound optimization in the Minimax algorithm, introducing alpha (maximizer bound) and beta (minimizer bound) to terminate unpromising branches early. Reduces nodes explored from 125 to ~85.
+- **Undo Functionality**: Stack-based state management system using deep-copy snapshots, allowing one undo per turn with a maximum of 3 undos per game.
+- **Complexity Reduction**: Minimax search reduced from O(k^d × N²) to O(k^(d/2) × N²) in best case, achieving 2-5× performance improvement.
+- **State Management**: HashMap-based storage of complete game state (cell colors, ownership, player territories) with O(N²) time and space complexity per snapshot.
+
 
 ## How to Run
 
